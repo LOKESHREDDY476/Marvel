@@ -1,0 +1,28 @@
+header {
+    background-color: #343a40;
+    padding: 15px;
+  }
+  
+  .navbar-nav .nav-link {
+    color: white;
+  }
+  
+  .logo {
+    max-width: 100px;
+  }
+  
+  .btn-primary, .btn-secondary {
+    color: white;
+  }
+  
+  .nav .nav-item{
+    margin: 10px;
+    color: white;
+    list-style: none;
+    text-decoration: none;
+    
+  }
+ 
+  .home{
+    display: flex;
+  }
