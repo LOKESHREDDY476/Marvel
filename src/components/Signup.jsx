@@ -1,64 +1,34 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { validateEmail, validateName, validatePassword, validatePhoneNumber } from './Utils';
+import { validateEmail, validateName, validatePhoneNumber, validatePassword } from './Utils';
 
-export const Signup=()=>{
-  //state variables
-  var [fname, setFname] = useState('');
-  var [email, setEmail] = useState('');
-  var [phoneNumber, setPhoneNumber] = useState('');
-  var [password, setPassword] = useState('');
-  var [cpassword, setCpassword] = useState('');
-  //state errors
-  var [fnameError, setFnameError] = useState('');
-  var [emailError, setEmailError] = useState('');
-  var [phoneNumberError, setPhoneNumberError] = useState('');
-  var [passwordError, setPasswordError] = useState('');
-  var [cpasswordError, setCpasswordError] = useState('');
-
+export const Signup = () => {
+  const [fname, setFname] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [cpassword, setCpassword] = useState('');
+  const [errors, setErrors] = useState({});
 
   const handleCreateAccount = (e) => {
     e.preventDefault();
-    if (validateName){
-      setFnameError('')
-    }else{
-      setFnameError('Please enter a valid name')
-    }
-    if (validateEmail(email)){
-      setEmailError('')
-      }else{
-        setEmailError('Please enter a valid email')
-    }
-    if (validatePhoneNumber(phoneNumber)){
-      setPhoneNumberError('')
-      }else{
-        setPhoneNumberError('Please enter a valid phone number')
-    }
-    if (validatePassword){
-      setPasswordError('')
-      }else{
-        setPasswordError('Please enter a valid password')
-    }
-    if (validatePassword(cpassword)){
-      setCpasswordError('')
-      }else{
-        setCpasswordError('Please enter a valid password')
-    
-  }
+    let newErrors = {};
+    if (!validateName(fname)) newErrors.fname = 'Invalid name';
+    if (!validateEmail(email)) newErrors.email = 'Invalid email';
+    if (!validatePhoneNumber(phoneNumber)) newErrors.phoneNumber = 'Invalid phone number';
+    if (!validatePassword(password)) newErrors.password = 'Invalid password';
+    if (password !== cpassword) newErrors.cpassword = 'Passwords do not match';
+    setErrors(newErrors);
 
-  
-    
-
-    console.log({ fname, email, phoneNumber, password, cpassword });
+    if (Object.keys(newErrors).length === 0) {
+      console.log({ fname, email, phoneNumber, password, cpassword });
+    }
   };
-  
- 
-  
 
   return (
-    <div className="signup-form w-25 mx-auto h-50 border border-1px p-5 mb-3">
+    <div className="signup-form w-25 mx-auto h-50 border p-5 mb-3">
       <h2>Sign Up</h2>
-      <form >
+      <form>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Full Name</label>
           <input
@@ -69,8 +39,7 @@ export const Signup=()=>{
             onChange={(e) => setFname(e.target.value)}
             required
           />
-           {fname &&  <div className='text-danger'>{fnameError}</div>}
-
+          {errors.fname && <div className='text-danger'>{errors.fname}</div>}
         </div>
 
         <div className="mb-3">
@@ -82,24 +51,21 @@ export const Signup=()=>{
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-
           />
-          {email &&  <div className='text-danger'>{emailError}Invalid email address</div>}
-
+          {errors.email && <div className='text-danger'>{errors.email}</div>}
         </div>
 
         <div className="mb-3">
           <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
           <input
-            type="tel"
+            type="text"
             className="form-control"
             id="phoneNumber"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             required
           />
-           {phoneNumber  && <div className='text-danger'>{phoneNumberError}Invalid phone number</div>}
-
+          {errors.phoneNumber && <div className='text-danger'>{errors.phoneNumber}</div>}
         </div>
 
         <div className="mb-3">
@@ -112,35 +78,27 @@ export const Signup=()=>{
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-           {password  && <div className='text-danger'>{passwordError}Invalid password</div>}
-
+          {errors.password && <div className='text-danger'>{errors.password}</div>}
         </div>
 
         <div className="mb-3">
-          <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+          <label htmlFor="confirm-password" className="form-label">Confirm Password</label>
           <input
             type="password"
             className="form-control"
-            id="confirmPassword"
+            id="confirm-password"
             value={cpassword}
             onChange={(e) => setCpassword(e.target.value)}
             required
           />
-           {cpassword && password !== cpassword && <div className='text-danger'>{cpasswordError}Passwords do not match</div>}
-
+          {errors.cpassword && <div className='text-danger'>{errors.cpassword}</div>}
         </div>
 
-        <div className="links">
-          <p>Already have an account? <Link to="/login">Login</Link></p>
-          <Link to="/home">Home</Link>
-        </div>
-
-        <button type="submit" className="btn btn-primary" onClick={(e)=>{
-          handleCreateAccount(e);
-        }
-
-        }>Sign Up</button>
+        <p>Already have an account? <Link to="/login">Login</Link></p>
+        <button type="submit" className="btn btn-primary ms-5" onClick={handleCreateAccount}>
+          Sign Up
+        </button>
       </form>
     </div>
   );
-}
+};

@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Login() {
   return (
-    <div className="login-form w-25 mx-auto h-50 mt-4 p-5 border border-1px ">
-
+    <div className="login-form w-25 mx-auto h-50 mt-4 p-5 border">
       <h2 className='h2 ms-5'>Login</h2>
       <form>
         <div className="mb-3">
@@ -15,11 +14,8 @@ function Login() {
           <label htmlFor="password" className="form-label">Password</label>
           <input type="password" className="form-control" id="password" name="password" required />
         </div>
-        <p>Don't have an account? <Link to="/signup">SignUp</Link></p>
-          
+        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
         <button type="submit" className="btn btn-primary ms-5">Login</button>
-       
-        
       </form>
     </div>
   );
